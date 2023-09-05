@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
+  state = {
       data: [
-        { id: 1, name: 'Item 1' },
-        { id: 2, name: 'Item 2' },
-        { id: 3, name: 'Item 3' },
+        { id: 1, name: 'eldrin' },
+        { id: 2, name: 'Mark' },
+        { id: 3, name: 'Gess' },
       ],
     };
-  }
+  
 
   render() {
     return (
