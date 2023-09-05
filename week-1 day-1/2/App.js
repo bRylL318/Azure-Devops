@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* Use the map function to iterate over the array */}
+        {/* Used the map function to iterate over the array */}
         {this.state.data.map(item => (
           <div key={item.id}>{item.name}</div>
         ))}
