@@ -94,7 +94,7 @@ class Addinfo extends Component {
         contact: this.state.contact,
         about: this.state.about,
       };
-      this.props.onUpdate(formData); // Send data to the parent component
+      this.props.onUpdate(formData); 
     } else {
       alert('Please fill in the required fields correctly.');
     }
