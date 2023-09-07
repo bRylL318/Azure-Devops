@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 
 class App extends Component {
   state = {
-    formData: null, // To store the user input data
+    formData: null, 
   };
 
   handleUpdate = (data) => {
@@ -20,7 +20,7 @@ class App extends Component {
         <AppBar position="static">
           <Toolbar>
             <span style={{ flex: 1 }}>
-              {/* Add your Navbar items here */}
+           
               <span style={{ marginRight: '20px', cursor: 'pointer' }}>Home</span>
               <span style={{ marginRight: '20px', cursor: 'pointer' }}>About Us</span>
               <span style={{ marginRight: '20px', cursor: 'pointer' }}>Contact</span>
