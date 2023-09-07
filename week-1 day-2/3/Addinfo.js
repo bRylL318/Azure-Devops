@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 class Addinfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      dob: '',
-      email: '',
-      contact: '',
-      about: '',
-      errors: {},
-    };
-  }
+  state = {
+    name: '',
+    dob: '',
+    email: '',
+    contact: '',
+    about: '',
+    errors: {},
+  };
+
 
   validateForm = () => {
     const { name, dob, email, contact } = this.state;
@@ -60,65 +60,77 @@ class Addinfo extends Component {
   };
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+
+    this.setState({
+      [e.target.name]: e.target.value,
+      [e.target.dob]: e.target.value,
+      [e.target.email]: e.target.value
+    });
+
   };
 
   render() {
     const { errors } = this.state;
 
     return (
-      <div className="User-form">
+      <div>
         <h2>User Information Form:</h2>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            {errors.name && <p className="error">{errors.name}</p>}
-          </div>
-          <div className="form-group">
-            <label>Date of Birth:</label>
-            <input
-              type="date"
-              name="dob"
-              value={this.state.dob}
-              onChange={this.handleChange}
-            />
-            {errors.dob && <p className="error">{errors.dob}</p>}
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-            {errors.email && <p className="error">{errors.email}</p>}
-          </div>
-          <div className="form-group">
-            <label>Contact Number:</label>
-            <input
-              type="text"
-              name="contact"
-              value={this.state.contact}
-              onChange={this.handleChange}
-            />
-            {errors.contact && <p className="error">{errors.contact}</p>}
-          </div>
-          <div className="form-group">
-            <label>Tell me about yourself:</label>
-            <textarea
-              name="about"
-              value={this.state.about}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit">Submit</button>
+          <TextField
+            label="Name"
+            name="name"
+            variant="outlined"
+            fullWidth
+            value={this.state.name}
+            onChange={this.handleChange}
+            error={Boolean(errors.name)}
+            helperText={errors.name}
+          />
+          <TextField
+            label="Date of Birth"
+            name="dob"
+            type="date"
+            variant="outlined"
+            fullWidth
+            value={this.state.dob}
+            onChange={this.handleChange}
+            error={Boolean(errors.dob)}
+            helperText={errors.dob}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            variant="outlined"
+            fullWidth
+            value={this.state.email}
+            onChange={this.handleChange}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
+          />
+          <TextField
+            label="Contact Number"
+            name="contact"
+            variant="outlined"
+            fullWidth
+            value={this.state.contact}
+            onChange={this.handleChange}
+            error={Boolean(errors.contact)}
+            helperText={errors.contact}
+          />
+          <TextField
+            label="Tell me about yourself"
+            name="about"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            value={this.state.about}
+            onChange={this.handleChange}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
         </form>
       </div>
     );
