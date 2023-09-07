@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 
 class Addinfo extends Component {
   state = {
@@ -9,129 +7,150 @@ class Addinfo extends Component {
     email: '',
     contact: '',
     about: '',
-    errors: {},
-  };
-
-
-  validateForm = () => {
-    const { name, dob, email, contact } = this.state;
-    const errors = {};
-
-    if (!name) {
-      errors.name = 'Name is required';
-    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-      errors.name = 'Name should contain alphabets only';
-    }
-
-    if (!dob) {
-      errors.dob = 'Date of Birth is required';
-    } else {
-      const today = new Date();
-      const dobDate = new Date(dob);
-      if (dobDate > today) {
-        errors.dob = "Date of Birth can't be greater than today's date";
-      }
-    }
-
-    if (!email) {
-      errors.email = 'Email is required';
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-      errors.email = 'Invalid email format';
-    }
-
-    if (!contact) {
-      errors.contact = 'Contact Number is required';
-    } else if (!/^\d{10}$/.test(contact)) {
-      errors.contact = 'Contact Number should be 10 digits';
-    }
-
-    this.setState({ errors });
-
-    return Object.keys(errors).length === 0;
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    if (this.validateForm()) {
-      const { name, dob, email, contact, about } = this.state;
-      const userData = { name, dob, email, contact, about };
-      this.props.onUpdate(userData);
-    }
+    error: {
+      nameError: '',
+      dobError: '',
+      emailError: '',
+      contactError: '',
+    },
+    formValid: false,
   };
 
   handleChange = (e) => {
-
-    this.setState({
-      [e.target.name]: e.target.value,
-      [e.target.dob]: e.target.value,
-      [e.target.email]: e.target.value
+    const { id, value } = e.target;
+    this.setState({ [id]: value }, () => {
+      this.validateField(id, value);
     });
+  };
 
+  validateField = (field, value) => {
+    let formValid = this.state.formValid;
+    let error = { ...this.state.error };
+
+    switch (field) {
+      case 'name':
+        if (!value.trim()) {
+          formValid = false;
+          error.nameError = 'Name is required';
+        } else if (!/^[A-Za-z\s]+$/.test(value)) {
+          formValid = false;
+          error.nameError = 'Name should contain alphabets only';
+        } else {
+          formValid = true;
+          error.nameError = '';
+        }
+        break;
+      case 'dob':
+        const currentDate = new Date();
+        const selectedDate = new Date(value);
+        if (!value.trim()) {
+          formValid = false;
+          error.dobError = 'Date of Birth is required';
+        } else if (selectedDate > currentDate) {
+          formValid = false;
+          error.dobError = 'Date of Birth cannot be greater than today';
+        } else {
+          formValid = true;
+          error.dobError = '';
+        }
+        break;
+      case 'email':
+        if (!value.trim()) {
+          formValid = false;
+          error.emailError = 'Email is required';
+        } else if (!/^\S+@\S+\.\S+$/.test(value)) {
+          formValid = false;
+          error.emailError = 'Invalid email format';
+        } else {
+          formValid = true;
+          error.emailError = '';
+        }
+        break;
+      case 'contact':
+        if (!value.trim()) {
+          formValid = false;
+          error.contactError = 'Contact Number is required';
+        } else if (!/^\d{10}$/.test(value)) {
+          formValid = false;
+          error.contactError = 'Contact Number should be 10 digits';
+        } else {
+          formValid = true;
+          error.contactError = '';
+        }
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ formValid, error });
+  };
+
+  handleSubmit = () => {
+    if (this.state.formValid) {
+      const formData = {
+        name: this.state.name,
+        dob: this.state.dob,
+        email: this.state.email,
+        contact: this.state.contact,
+        about: this.state.about,
+      };
+      this.props.onUpdate(formData); // Send data to the parent component
+    } else {
+      alert('Please fill in the required fields correctly.');
+    }
   };
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div>
-        <h2>User Information Form:</h2>
-        <form onSubmit={this.handleSubmit}>
-          <TextField
-            label="Name"
-            name="name"
-            variant="outlined"
-            fullWidth
-            value={this.state.name}
-            onChange={this.handleChange}
-            error={Boolean(errors.name)}
-            helperText={errors.name}
-          />
-          <TextField
-            label="Date of Birth"
-            name="dob"
-            type="date"
-            variant="outlined"
-            fullWidth
-            value={this.state.dob}
-            onChange={this.handleChange}
-            error={Boolean(errors.dob)}
-            helperText={errors.dob}
-          />
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            variant="outlined"
-            fullWidth
-            value={this.state.email}
-            onChange={this.handleChange}
-            error={Boolean(errors.email)}
-            helperText={errors.email}
-          />
-          <TextField
-            label="Contact Number"
-            name="contact"
-            variant="outlined"
-            fullWidth
-            value={this.state.contact}
-            onChange={this.handleChange}
-            error={Boolean(errors.contact)}
-            helperText={errors.contact}
-          />
-          <TextField
-            label="Tell me about yourself"
-            name="about"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={4}
-            value={this.state.about}
-            onChange={this.handleChange}
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-        </form>
+        <label>Enter Name</label>
+        <input
+          type="text"
+          placeholder="Please enter name"
+          id="name"
+          value={this.state.name}
+          onChange={this.handleChange}
+        />
+        <p>{this.state.error.nameError}</p>
+
+        <label>Enter Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          value={this.state.dob}
+          onChange={this.handleChange}
+        />
+        <p>{this.state.error.dobError}</p>
+
+        <label>Enter Email</label>
+        <input
+          type="email"
+          placeholder="Please enter email"
+          id="email"
+          value={this.state.email}
+          onChange={this.handleChange}
+        />
+        <p>{this.state.error.emailError}</p>
+
+        <label>Enter Contact Number</label>
+        <input
+          type="tel"
+          placeholder="Please enter contact number"
+          id="contact"
+          value={this.state.contact}
+          onChange={this.handleChange}
+        />
+        <p>{this.state.error.contactError}</p>
+
+        <label>Tell Me About Yourself</label>
+        <textarea
+          placeholder="Write something about yourself"
+          id="about"
+          value={this.state.about}
+          onChange={this.handleChange}
+        />
+
+        <button onClick={this.handleSubmit}>Submit</button>
       </div>
     );
   }
