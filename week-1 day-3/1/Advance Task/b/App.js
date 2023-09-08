@@ -1,20 +1,33 @@
-const _ = require('lodash');
+import React from 'react';
+import _ from 'lodash';
 
 const str = ['u', 'ec'];
-const arr = [{
+const arr = [
+  {
     storageVal: 'u',
-    table: ['E', 'F']
-}, {
+    table: ['E', 'F'],
+  },
+  {
     storageVal: 'data',
-    table: ['E', 'F']
-}, {
+    table: ['E', 'F'],
+  },
+  {
     storageVal: 'ec',
-    table: ['E']
-}];
+    table: ['E'],
+  },
+];
 
-const filteredTables = _.map(
-  _.filter(arr, item => str.includes(item.storageVal)),
-  'table'
-);
+const App = () => {
+  
+  const tableArrays = _.map(_.filter(arr, (obj) => str.includes(obj.storageVal)), 'table');
 
-console.log(filteredTables);
+  const result = _.flatten(tableArrays);
+
+  return (
+    <div>
+      <pre>{JSON.stringify(result, null, 2)}</pre>
+    </div>
+  );
+};
+
+export default App;
