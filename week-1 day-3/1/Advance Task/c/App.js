@@ -1,6 +1,20 @@
-const _ = require('lodash');
+import React from 'react';
+import _ from 'lodash';
 
-const a = [['E'], ['F']];
-const flattenedArray = _.flatten(a);
+function MyComponent() {
+    const a = [['E'], ['F']];
+    const flattenedArray = _.flatten(a);
 
-console.log(flattenedArray);
+    return (
+        <div>
+            <p>Flattened Array:</p>
+            <p>
+                {flattenedArray.map((item, index) => (
+                    <p key={index}>{item}</p>
+                ))}
+            </p>
+        </div>
+    );
+}
+
+export default MyComponent;
