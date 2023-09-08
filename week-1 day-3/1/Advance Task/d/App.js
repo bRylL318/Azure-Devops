@@ -1,8 +1,19 @@
-const _ = require('lodash');
+import React from 'react';
+import _ from 'lodash';
 
-const t = ['E', 'F'];
-const nestedArrays = [['F'], ['G']];
+const MyComponent = () => {
+    const inputArray = ['E', 'F'];
+    const nestedArray = [['F'], ['G']];
 
-const result = _.concat(t, _.flatMap(nestedArrays));
+    // Flatten the nested array and concatenate it with the input array
+    const resultArray = _.concat(inputArray, _.flatten(nestedArray));
 
-console.log(result);
+    return (
+        <div>
+
+            <p>{JSON.stringify(resultArray, null, 2)}</p>
+        </div>
+    );
+};
+
+export default MyComponent;
